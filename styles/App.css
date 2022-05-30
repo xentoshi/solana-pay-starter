@@ -1,6 +1,11 @@
 .App {
   height: 100vh;
   background-color: rgb(20, 20, 20);
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image:  radial-gradient(#444cf7 1.35px, transparent 1.35px), radial-gradient(#444cf7 1.35px, #000000 1.35px);
+  background-size: 54px 54px;
+  background-position: 0 0,27px 27px;
   text-align: center;
   overflow: hidden;
 }
@@ -25,7 +30,7 @@
 .header {
   margin: 0;
   font-size: 50px;
-  font-weight: bold;
+  font-weight: medium;
 }
 
 .sub-text {
