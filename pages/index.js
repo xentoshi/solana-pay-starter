@@ -1,20 +1,31 @@
-import React, {useEffect, useState } from "react";
-import HeadComponent from '../components/Head';
+import React, { useState, useEffect} from "react";
+import CreateProduct from "../components/CreateProduct";
 import Product from "../components/Product";
-import { PublicKey } from '@solana/web3.js';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { render } from "react-dom";
+import HeadComponent from '../components/Head';
+
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 // Constants
 const TWITTER_HANDLE = "xentoshi";
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
-  // This will fetch the users' public key (wallet address) from any wallet we support
   const { publicKey } = useWallet();
+  const isOwner = ( publicKey ? publicKey.toString() === process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY : false );
+  const [creating, setCreating] = useState(false);
   const [products, setProducts] = useState([]);
+  
+  const renderNotConnectedContainer = () => (
+    <div>
+      <img src="https://media0.giphy.com/media/TOhTGM1xJ77bZwnNCy/giphy.gif?cid=ecf05e47q3uoprcj36q8ckruxneu8edf4ooboj5nn6lswqp1&rid=giphy.gif&ct=g" alt="emoji" />
 
+      <div className="button-container">
+        <WalletMultiButton className="cta-button connect-wallet-button" />
+      </div>    
+    </div>
+  );
+  
   useEffect(() => {
     if (publicKey) {
       fetch(`/api/fetchProducts`)
@@ -26,12 +37,6 @@ const App = () => {
     }
   }, [publicKey]);
 
-  const renderNotConnectedContainer = () => (
-    <div className="button-container">
-      <WalletMultiButton className="cta-button connect-wallet-button" />
-    </div>
-  );
-  
   const renderItemBuyContainer = () => (
     <div className="products-container">
       {products.map((product) => (
@@ -39,29 +44,41 @@ const App = () => {
       ))}
     </div>
   );
-  
+
   return (
     <div className="App">
       <HeadComponent/>
       <div className="container">
         <header className="header-container">
-          <p className="header">🪄 buildspace merch</p>
-          <p className="sub-text">localh*st:3000 </p>
+          <p className="header"> lazy memes</p>
+          <p className="sub-text">too lazy to search for memes? buy them
+          <br>
+          </br>
+          <a href="https://emoji.gg/emoji/2901-clown-peepo">
+            <img src="https://cdn3.emoji.gg/emojis/2901-clown-peepo.png" width="64px" height="64px" alt="clown_peepo"/>
+            </a>
+             </p>
+
+          {isOwner && (
+            <button className="create-product-button" onClick={() => setCreating(!creating)}>
+              {creating ? "Close" : "Create Product"}
+            </button>
+          )}
         </header>
 
         <main>
-        {/* We only render the connect button if public key doesn't exist */}
-        { publicKey ? renderItemBuyContainer() : renderNotConnectedContainer()}
+          {creating && <CreateProduct />}
+          {publicKey ? renderItemBuyContainer() : renderNotConnectedContainer()}
         </main>
 
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src="twitter-logo.svg" />
-            <a
+          <a
             className="footer-text"
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-            >{`built by @${TWITTER_HANDLE}`}</a>
+          >{`@${TWITTER_HANDLE}`}</a>
         </div>
       </div>
     </div>
