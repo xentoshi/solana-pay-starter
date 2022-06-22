@@ -18,7 +18,7 @@ const App = () => {
   
   const renderNotConnectedContainer = () => (
     <div>
-      <img src="https://media0.giphy.com/media/TOhTGM1xJ77bZwnNCy/giphy.gif?cid=ecf05e47q3uoprcj36q8ckruxneu8edf4ooboj5nn6lswqp1&rid=giphy.gif&ct=g" alt="emoji" />
+      <img src="https://media4.giphy.com/media/a5viI92PAF89q/giphy.gif?cid=ecf05e47cxzphp2jljhfi26fgnlby23l0r8kgxviuhdc9qau&rid=giphy.gif&ct=g" alt="emoji" />
 
       <div className="button-container">
         <WalletMultiButton className="cta-button connect-wallet-button" />
